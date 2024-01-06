@@ -1,13 +1,9 @@
-<template lang="">
-    <div>
-        
-    </div>
+<template>
+    <BaseLayout></BaseLayout>
 </template>
-<script>
-export default {
-    
-}
+<script setup>
+
+import BaseLayout from '../Layouts/BaseLayout.vue';
+
 </script>
-<style lang="">
-    
-</style>
+<style></style>

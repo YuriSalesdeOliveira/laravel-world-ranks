@@ -1,0 +1,18 @@
+:root {
+    font-size: 62.5%;
+
+    /* colors */
+
+    --color-primary: #6c727d;
+    --color-primary-dark: #282b30;
+
+    --color-background: #1c1d1f;
+
+    /* variables */
+
+    --vertical-offset: -8rem;
+}
+
+body {
+    background-color: black;
+}
