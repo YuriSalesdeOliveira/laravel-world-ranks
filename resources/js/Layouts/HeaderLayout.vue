@@ -1,22 +1,32 @@
 <template>
     <header class="l-header">
 
-        <img :src="headerBackground" alt="metade do planeta terra" class="l-header__background">
+        <img
+            :src="headerBackground"
+            alt="metade do planeta terra"
+            class="l-header__background"
+        >
 
-        <img :src="logo" alt="logo world ranks" class="l-header__logo">
+        <img
+            :src="logo"
+            alt="logo world ranks"
+            class="l-header__logo"
+        >
 
     </header>
 </template>
+
 <script setup>
 
 import headerBackground from '../assets/images/header-background.jpg'
 import logo from '../assets/images/logo.svg'
 
 </script>
-<style>
+
+<style lang="css" scoped>
 .l-header {
     position: relative;
-    width: 100vw;
+    width: 100%;
     height: 38rem;
 
     .l-header__background {
