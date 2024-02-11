@@ -1,9 +1,17 @@
 <?php
 
+use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\get;
 
 it('should be able to render the world ranks page', function () {
-    $response = get('/');
+    
+    $response = get(
+        route('home.index')
+    );
 
-    $response->assertStatus(200);
+    $response->assertInertia(function (Assert $page) {
+        return $page
+            ->component('Home');
+    })
+        ->assertStatus(200);
 });
