@@ -30,7 +30,12 @@ class CountryController extends Controller
         ]);
 
         $country = new Country();
-        $country->flag = request()->file('flag')->store('flags', 'public');
+        
+        if ($flag = request()->file('flag')) {
+
+            $country->flag = $flag->store('flags', 'public');
+        }
+
         $country->name = request()->string('name')->title();
         $country->population = request()->integer('population');
         $country->area = request()->integer('area');
@@ -72,7 +77,11 @@ class CountryController extends Controller
             'continent' => ['required', Rule::enum(ContinentEnum::class)],
         ]);
 
-        $country->flag = request()->file('flag')->store('flags', 'public');
+        if ($flag = request()->file('flag')) {
+
+            $country->flag = $flag->store('flags', 'public');
+        }
+
         $country->name = request()->string('name')->title();
         $country->population = request()->integer('population');
         $country->area = request()->integer('area');
