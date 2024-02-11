@@ -1,7 +1,9 @@
 <?php
 
+use function Pest\Laravel\get;
+
 it('should be able to render the world ranks page', function () {
-    $response = $this->get('/');
+    $response = get('/');
 
     $response->assertStatus(200);
 });

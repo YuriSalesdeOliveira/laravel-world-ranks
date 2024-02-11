@@ -46,7 +46,9 @@ class CountryController extends Controller
      */
     public function show(Country $country)
     {
-        //
+        return inertia('Country', [
+            'country' => $country,
+        ]);
     }
 
     /**

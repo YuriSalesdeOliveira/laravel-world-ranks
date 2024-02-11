@@ -1,11 +1,13 @@
 <?php
 
 use App\Models\Country;
-use Illuminate\Http\UploadedFile;
+use Inertia\Testing\AssertableInertia as Assert;
 
-use function Pest\Laravel\delete;
-use function Pest\Laravel\post;
+use function Pest\Laravel\get;
 use function Pest\Laravel\put;
+use function Pest\Laravel\post;
+use function Pest\Laravel\delete;
+use Illuminate\Http\UploadedFile;
 
 it('should be able to create a country', function () {
 
@@ -58,4 +60,18 @@ it('should be able to delete a country', function () {
         ->assertRedirectToRoute('home.index');
 });
 
-todo('should be able to render the country page');
+it('should be able to render the country page', function () {
+
+    $registeredCountry = Country::inRandomOrder()->first();
+
+    $response = get(
+        route('countries.show', ['country' => $registeredCountry->id])
+    );
+
+    $response->assertInertia(function (Assert $page) use ($registeredCountry) {
+        return $page
+            ->component('Country')
+            ->where('country.id', $registeredCountry->id);
+    })
+        ->assertStatus(200);
+});
