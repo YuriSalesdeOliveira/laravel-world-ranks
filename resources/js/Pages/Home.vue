@@ -9,32 +9,36 @@
                 <h3>Sort by</h3>
             </aside>
             
-            <Table
-                :columns="columns"
-                :rows="rows"
-                :rules="rules"
-            />
+            <div>
+
+                <Table
+                    :columns="columns"
+                    :rows="countries.data"
+                    :rules="rules"
+                />
+
+                <Pagination :pagination="countries" />
+
+            </div>
 
         </div>
+
     </BaseLayout>
 </template>
 
 <script setup>
 
+import BaseLayout from '../Layouts/BaseLayout.vue';
+import Pagination from '../Components/Pagination.vue';
 import Table from '../Components/Table.vue';
 import TopBar from '../Components/TopBar.vue';
-import BaseLayout from '../Layouts/BaseLayout.vue';
+
+const props = defineProps({
+    countries: Object
+});
 
 const columns = ['Flag', 'Name', 'Population', 'Area(km²)', 'Continent'];
-const rows = [
-    { flag: 'https://flagicons.lipis.dev/flags/4x3/br.svg', name: 'Brazil', population: '213000000', area: '8515767', continent: 'South America' },
-    { flag: 'https://flagicons.lipis.dev/flags/4x3/br.svg', name: 'Brazil', population: '213000000', area: '8515767', continent: 'South America' },
-    { flag: 'https://flagicons.lipis.dev/flags/4x3/br.svg', name: 'Brazil', population: '213000000', area: '8515767', continent: 'South America' },
-    { flag: 'https://flagicons.lipis.dev/flags/4x3/br.svg', name: 'Brazil', population: '213000000', area: '8515767', continent: 'South America' },
-    { flag: 'https://flagicons.lipis.dev/flags/4x3/br.svg', name: 'Brazil', population: '213000000', area: '8515767', continent: 'South America' },
-    { flag: 'https://flagicons.lipis.dev/flags/4x3/br.svg', name: 'Brazil', population: '213000000', area: '8515767', continent: 'South America' },
-    { flag: 'https://flagicons.lipis.dev/flags/4x3/br.svg', name: 'Brazil', population: '213000000', area: '8515767', continent: 'South America' },
-];
+
 const rules = {
     flag: {
         type: 'image',
