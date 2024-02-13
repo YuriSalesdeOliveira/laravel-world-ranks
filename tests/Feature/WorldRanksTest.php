@@ -11,7 +11,8 @@ it('should be able to render the world ranks page', function () {
 
     $response->assertInertia(function (Assert $page) {
         return $page
-            ->component('Home');
+            ->component('Home')
+            ->has('countries');
     })
         ->assertStatus(200);
 });

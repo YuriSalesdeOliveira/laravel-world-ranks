@@ -6,7 +6,7 @@
             <Link v-if="pagination.prev_page_url" :href="pagination.prev_page_url" preserve-scroll
                 class="c-pagination__control c-pagination__prev">
 
-                <PrevIcon class="c-pagination__icon" />
+                <PrevIcon width="6" class="c-pagination__icon" />
 
             </Link>
 
@@ -23,7 +23,7 @@
             <Link v-if="pagination.next_page_url" :href="pagination.next_page_url" preserve-scroll
                 class="c-pagination__control c-pagination__next">
 
-                <NextIcon class="c-pagination__icon" />
+                <NextIcon width="6" class="c-pagination__icon" />
 
             </Link>
 
@@ -109,14 +109,13 @@ const clearLinks = computed(() => {
                 &.is-active {
                     &::after {
                         content: '';
-                        width: .8rem;
-                        height: 2px;
-                        display: block;
                         position: absolute;
                         left: 50%;
                         bottom: -.8rem;
                         transform: translateX(-50%);
-                        background-color: var(--color-primary);
+                        width: 1rem;
+                        height: .1rem;
+                        background-color: white;
                     }
                 }
             }
