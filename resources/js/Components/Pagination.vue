@@ -3,8 +3,8 @@
 
         <div class="c-pagination__wrapper">
 
-            <Link v-if="pagination.prev_page_url" :href="pagination.prev_page_url" preserve-scroll
-                class="c-pagination__control c-pagination__prev">
+            <Link :href="prevPageURL" preserve-scroll
+                :class="['c-pagination__control', prevPageURL ? '' : 'is-inactive']">
 
                 <PrevIcon width="6" class="c-pagination__icon" />
 
@@ -20,8 +20,8 @@
 
             </ul>
 
-            <Link v-if="pagination.next_page_url" :href="pagination.next_page_url" preserve-scroll
-                class="c-pagination__control c-pagination__next">
+            <Link :href="nextPageURL" preserve-scroll
+                :class="['c-pagination__control', nextPageURL ? '' : 'is-inactive']">
 
                 <NextIcon width="6" class="c-pagination__icon" />
 
@@ -53,13 +53,22 @@ const clearLinks = computed(() => {
     return clearLinks;
 });
 
+const prevPageURL = computed(() => {
+    return props.pagination.prev_page_url ?? '';
+});
+
+const nextPageURL = computed(() => {
+    return props.pagination.next_page_url ?? '';
+});
+
 </script>
 
 <style scoped>
 .c-pagination {
+    user-select: none;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     padding: 1rem 0;
     font-size: 1.4rem;
     color: white;
@@ -68,15 +77,14 @@ const clearLinks = computed(() => {
         position: relative;
         display: flex;
         justify-content: center;
-        gap: 2rem;
+        align-items: center;
+        gap: 1.5rem;
 
         .c-pagination__control {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
+            padding: .8rem;
 
             .c-pagination__icon {
-                fill: white;
+                fill: var(--color-primary);
             }
 
             &:hover {
@@ -84,14 +92,11 @@ const clearLinks = computed(() => {
                     fill: var(--color-primary);
                 }
             }
-        }
 
-        .c-pagination__prev {
-            left: -4rem;
-        }
-
-        .c-pagination__next {
-            right: -4rem;
+            &.is-inactive {
+                pointer-events: none;
+                opacity: .5;
+            }
         }
 
         .c-pagination_links {
@@ -101,9 +106,10 @@ const clearLinks = computed(() => {
             .c-pagination__link {
                 position: relative;
                 transition: all linear .2s;
+                color: var(--color-primary);
 
                 &:hover {
-                    color: var(--color-primary);
+                    color: white;
                 }
 
                 &.is-active {
@@ -113,9 +119,9 @@ const clearLinks = computed(() => {
                         left: 50%;
                         bottom: -.8rem;
                         transform: translateX(-50%);
-                        width: 1rem;
+                        width: .5rem;
                         height: .1rem;
-                        background-color: white;
+                        background-color: var(--color-primary);
                     }
                 }
             }

@@ -14,9 +14,11 @@
         <input
             type="text"
             name="search"
+            :value="modelValue"
+            @input="$emit('update:modelValue', $event.target.value)"
             id="c-search__input"
             class="c-search__input"
-            placeholder="Search by Name, Region, Subregion"
+            placeholder="Search by Name, Continent, Subcontinent"
         >
 
     </label>
@@ -25,6 +27,14 @@
 <script setup>
 
 import searchIcon from '../assets/images/icons/search.svg'
+
+defineProps({
+    modelValue: String
+});
+
+defineEmits([
+    'update:modelValue'
+]);
 
 </script>
 

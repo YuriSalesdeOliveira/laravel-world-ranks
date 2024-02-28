@@ -2,18 +2,17 @@
 
 namespace App\Enums;
 
+use App\Enums\Traits\UtilitiesTrait;
+
 enum ContinentEnum: string
 {
-    case Asia = 'Asia';
-    case Africa = 'Africa';
-    case Europe = 'Europe';
-    case NorthAmerica = 'North America';
-    case SouthAmerica = 'South America';
-    case Oceania = 'Oceania';
-    case Antarctica = 'Antarctica';
+    use UtilitiesTrait;
 
-    public static function values(): array
-    {
-        return array_map(fn ($continentEnum) => $continentEnum->value, self::cases());
-    }
+    case ASIA = 'Asia';
+    case AFRICA = 'Africa';
+    case EUROPE = 'Europe';
+    case NORTH_AMERICA = 'North America';
+    case SOUTH_AMERICA = 'South America';
+    case OCEANIA = 'Oceania';
+    case ANTARCTICA = 'Antarctica';
 }

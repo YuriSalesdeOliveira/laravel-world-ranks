@@ -23,7 +23,7 @@
                         :src="row[column]"
                         :alt="rules[column].attributes?.alt"
                         class="c-table__image"
-                        v-if="rules && column in rules"
+                        v-if="rules && column in rules && row[column]"
                     >
 
                     <template v-else>{{ row[column] }}</template>
@@ -84,6 +84,9 @@ const formattedColumns = getAllFormattedColumns();
             }
 
             .c-table__image {
+                width: 100%;
+                max-width: 8rem;
+                object-fit: cover;
                 border-radius: .6rem;
             }
         }

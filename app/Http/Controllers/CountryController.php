@@ -30,7 +30,7 @@ class CountryController extends Controller
         ]);
 
         $country = new Country();
-        
+
         if ($flag = request()->file('flag')) {
 
             $country->flag = $flag->store('flags', 'public');

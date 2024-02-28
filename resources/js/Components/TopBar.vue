@@ -1,17 +1,24 @@
 <template>
     <header class="c-top-bar">
         <h1 class="c-top-bar__title">{{ title }}</h1>
-        <Search />
+        <form @submit.prevent="form.get(route('home.index'), { preserveScroll: true, preserveState: true })">
+            <Search v-model="form.search" />
+        </form>
     </header>
 </template>
 
 <script setup>
 
+import { useForm } from '@inertiajs/vue3';
 import Search from './Search.vue';
 
 defineProps({
     title: String
-})
+});
+
+const form = useForm({
+    search: null
+});
 
 </script>
 

@@ -9,11 +9,11 @@
 
 defineProps({
     width: {
-        type: Number,
+        type: String,
         default: 8
     },
     height: {
-        type: Number,
+        type: String,
         default: 'auto'
     },
     class: {

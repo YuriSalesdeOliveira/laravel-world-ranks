@@ -1,13 +1,13 @@
 <?php
 
 use App\Models\Country;
+use Illuminate\Http\UploadedFile;
 use Inertia\Testing\AssertableInertia as Assert;
 
-use function Pest\Laravel\get;
-use function Pest\Laravel\put;
-use function Pest\Laravel\post;
 use function Pest\Laravel\delete;
-use Illuminate\Http\UploadedFile;
+use function Pest\Laravel\get;
+use function Pest\Laravel\post;
+use function Pest\Laravel\put;
 
 it('should be able to create a country', function () {
 
