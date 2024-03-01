@@ -1,61 +1,14 @@
 <template>
     <table class="c-table">
-        <thead>
-            <tr class="c-table__row">
-                <th
-                    class="c-table__header"
-                    v-for="column in columns">
-
-                    {{ column }}
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr
-                class="c-table__row"
-                v-for="row in rows">
-
-                <td
-                    class="c-table__data"
-                    v-for="column in formattedColumns">
-
-                    <img
-                        :src="row[column]"
-                        :alt="rules[column].attributes?.alt"
-                        class="c-table__image"
-                        v-if="rules && column in rules && row[column]"
-                    >
-
-                    <template v-else>{{ row[column] }}</template>
-
-                </td>
-            </tr>
-        </tbody>
+        <slot></slot>
     </table>
 </template>
 
 <script setup>
 
-const props = defineProps({
-    columns: Array,
-    rows: Array,
-    rules: Object
-});
-
-function getAllFormattedColumns() {
-
-    const formattedColumns = props.columns.map(column => {
-        return column.toLowerCase().replace(/\([^)]*\)/, '');
-    });
-
-    return formattedColumns;
-}
-
-const formattedColumns = getAllFormattedColumns();
-
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
 .c-table {
     border-collapse: separate;
     border-spacing: 2rem;

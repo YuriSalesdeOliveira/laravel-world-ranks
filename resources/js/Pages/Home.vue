@@ -1,42 +1,59 @@
 <template>
     <BaseLayout>
 
-        <TopBar title="Found 234 countries" />
+        <TopBar>
+
+            <h1 class="c-top-bar__title">Found 234 countries</h1>
+
+            <form v-on:submit.prevent="form.get(route('home.index'), { preserveScroll: true, preserveState: true })">
+                <Search v-model="form.search" />
+            </form>
+
+        </TopBar>
 
         <div class="u-wrapper">
 
             <aside class="c-aside">
 
                 <h3 class="c-aside__title">Sort by</h3>
-
-                <select name="sort_by" class="c-aside__select">
-                    <option
-                        value="option"
-                        class="c-aside__option"
-                        v-for="option in columns"
+                
+                <select
+                        class="c-aside__select"
+                        v-model="form.column"
+                        v-on:change="form.get(route('home.index'), { preserveScroll: true, preserveState: true })"
                     >
 
-                        {{ option }}
-
+                    <option value="name" class="c-aside__option">
+                        Name
                     </option>
+
+                    <option value="population" class="c-aside__option">
+                        Population
+                    </option>
+
+                    <option value="area" class="c-aside__option">
+                        Area(km²)
+                    </option>
+
+                    <option value="continent" class="c-aside__option">
+                        Continent
+                    </option>
+
                 </select>
 
                 <h3 class="c-aside__title">Continents</h3>
 
                 <div class="c-aside__continents">
 
-                    <label
-                        :for="continent.toLowerCase().replace(' ', '_')"
-                        class="c-aside__continent"
-                        v-for="continent in continents"
-                    >
+                    <label :for="continent.toLowerCase().replace(' ', '_')" class="c-aside__continent"
+                        v-for="continent in continents">
 
                         <input
                             type="checkbox"
-                            name="continent"
                             :value="continent"
-                            :id="continent.toLowerCase().replace(' ', '_')"
-                            class="c-aside__checkbox"
+                            :id="continent.toLowerCase().replace(' ', '_')" class="c-aside__checkbox"
+                            v-model="form.continents"
+                            v-on:change="form.get(route('home.index'), { preserveScroll: true, preserveState: true })"
                         >
 
                         {{ continent }}
@@ -49,15 +66,11 @@
 
                 <div class="c-aside__country-status">
 
-                    <label
-                        :for="status.toLowerCase().replace(' ', '_')"
-                        class="c-aside__status"
-                        v-for="status in countryStatus"
-                    >
+                    <label :for="status.toLowerCase().replace(' ', '_')" class="c-aside__status"
+                        v-for="status in countryStatus">
 
                         <input
                             type="checkbox"
-                            name="status"
                             :value="status"
                             :id="status.toLowerCase().replace(' ', '_')"
                             class="c-aside__checkbox"
@@ -73,7 +86,61 @@
 
             <div>
 
-                <Table :columns="columns" :rows="countries.data" :rules="rules" />
+                <Table>
+                    <thead>
+                        <tr class="c-table__row">
+
+                            <th class="c-table__header">
+                                Flag
+                            </th>
+
+                            <th class="c-table__header">
+                                Name
+                            </th>
+
+                            <th class="c-table__header">
+                                Population
+                            </th>
+
+                            <th class="c-table__header">
+                                Area(km²)
+                            </th>
+
+                            <th class="c-table__header">
+                                Continent
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="c-table__row" v-for="country in countries.data">
+
+                            <td class="c-table__data">
+                                <img :src="country.flag" :alt="country.name" class="c-table__image">
+                            </td>
+
+                            <td>
+                                {{ country.name }}
+                            </td>
+
+
+                            <td>
+                                {{ country.population }}
+                            </td>
+
+
+                            <td>
+                                {{ country.area }}
+                            </td>
+
+
+                            <td>
+                                {{ country.continent }}
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </Table>
 
                 <Pagination :pagination="countries" />
 
@@ -88,8 +155,10 @@
 
 import BaseLayout from '../Layouts/BaseLayout.vue';
 import Pagination from '../Components/Pagination.vue';
+import Search from '../Components/Search.vue'
 import Table from '../Components/Table.vue';
 import TopBar from '../Components/TopBar.vue';
+import { useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
     countries: Object,
@@ -97,16 +166,12 @@ const props = defineProps({
     countryStatus: Array
 });
 
-const columns = ['Flag', 'Name', 'Population', 'Area(km²)', 'Continent'];
-
-const rules = {
-    flag: {
-        type: 'image',
-        attributes: {
-            alt: 'country flag'
-        }
-    }
-}
+const form = useForm({
+    column: null,
+    continents: [],
+    status: null,
+    search: null
+});
 
 </script>
 
