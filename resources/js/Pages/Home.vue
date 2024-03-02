@@ -62,21 +62,23 @@
 
                 </div>
 
-                <h3 class="c-aside__title">Status</h3>
+                <h3 class="c-aside__title">Tag</h3>
 
-                <div class="c-aside__country-status">
+                <div class="c-aside__tags">
 
-                    <label :for="status.toLowerCase().replace(' ', '_')" class="c-aside__status"
-                        v-for="status in countryStatus">
+                    <label :for="tag.name.toLowerCase().replace(' ', '_')" class="c-aside__tag"
+                        v-for="tag in tags">
 
                         <input
                             type="checkbox"
-                            :value="status"
-                            :id="status.toLowerCase().replace(' ', '_')"
+                            :value="tag.id"
+                            :id="tag.name.toLowerCase().replace(' ', '_')"
                             class="c-aside__checkbox"
+                            v-model="form.tags"
+                            v-on:change="form.get(route('home.index'), { preserveScroll: true, preserveState: true })"
                         >
 
-                        {{ status }}
+                        {{ tag.name }}
 
                     </label>
 
@@ -163,13 +165,13 @@ import { useForm } from '@inertiajs/vue3';
 const props = defineProps({
     countries: Object,
     continents: Array,
-    countryStatus: Array
+    tags: Array
 });
 
 const form = useForm({
     column: null,
     continents: [],
-    status: null,
+    tags: [],
     search: null
 });
 
@@ -233,12 +235,12 @@ const form = useForm({
             }
         }
 
-        .c-aside__country-status {
+        .c-aside__tags {
             display: flex;
             flex-direction: column;
             gap: .8rem;
 
-            .c-aside__status {
+            .c-aside__tag {
                 cursor: pointer;
                 display: flex;
                 align-items: center;

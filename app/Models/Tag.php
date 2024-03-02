@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Country extends Model
+class Tag extends Model
 {
     use HasFactory;
 
-    public function tags(): BelongsToMany
+    public function countries(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Country::class);
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ContinentEnum;
-use App\Enums\CountryStatusEnum;
 use App\Models\Country;
+use App\Models\Tag;
 
 class HomeController extends Controller
 {
@@ -24,10 +24,10 @@ class HomeController extends Controller
 
         if ($continents = request()->continents) {
 
-            $countries->where(function($query) use ($continents) {
+            $countries->where(function ($query) use ($continents) {
 
                 foreach ($continents as $continent) {
-                    
+
                     $query->orWhere('continent', $continent);
                 }
 
@@ -35,14 +35,18 @@ class HomeController extends Controller
             });
         }
 
-        if ($search = request()->search) {
+        if ($tags = request()->tags) {
 
+            $countries->whereHas('tags', function ($query) use ($tags) {
+
+                return $query->whereIn('tags.id', $tags);
+            });
         }
 
         return inertia('Home', [
             'countries' => $countries->paginate(10),
             'continents' => ContinentEnum::values(),
-            'countryStatus' => CountryStatusEnum::values(),
+            'tags' => Tag::take(10)->get(),
         ]);
     }
 }
