@@ -10,21 +10,21 @@ class HomeController extends Controller
 {
     public function __invoke()
     {
-        $countries = Country::query();
+        $countryQuery = Country::query();
 
-        if ($search = request()->search) {
+        $countryQuery->when(request()->search, function ($query, $search) {
 
-            $countries->where('name', 'like', "%{$search}%");
-        }
+            return $query->where('name', 'like', "%{$search}%");
+        });
 
-        if ($column = request()->column) {
+        $countryQuery->when(request()->column, function ($query, $column) {
 
-            $countries->orderBy($column);
-        }
+            return $query->orderBy($column);
+        });
 
-        if ($continents = request()->continents) {
+        $countryQuery->when(request()->continents, function ($query, $continents) {
 
-            $countries->where(function ($query) use ($continents) {
+            return $query->where(function ($query) use ($continents) {
 
                 foreach ($continents as $continent) {
 
@@ -33,18 +33,18 @@ class HomeController extends Controller
 
                 return $query;
             });
-        }
+        });
 
-        if ($tags = request()->tags) {
+        $countryQuery->when(request()->tags, function ($query, $tags) {
 
-            $countries->whereHas('tags', function ($query) use ($tags) {
+            return $query->whereHas('tags', function ($query) use ($tags) {
 
                 return $query->whereIn('tags.id', $tags);
             });
-        }
+        });
 
         return inertia('Home', [
-            'countries' => $countries->paginate(10),
+            'countries' => $countryQuery->paginate(10),
             'continents' => ContinentEnum::values(),
             'tags' => Tag::take(10)->get(),
         ]);
