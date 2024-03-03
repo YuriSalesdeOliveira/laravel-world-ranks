@@ -29,7 +29,7 @@ it('should be able to create a country', function () {
 
 it('should be able to update a country using put http method', function () {
 
-    $registeredCountry = Country::inRandomOrder()->first();
+    $registeredCountry = Country::inRandomOrder()->firstOrFail();
 
     $flag = UploadedFile::fake()->image('flag.jpg');
 
@@ -49,7 +49,7 @@ it('should be able to update a country using put http method', function () {
 
 it('should be able to delete a country', function () {
 
-    $registeredCountry = Country::inRandomOrder()->first();
+    $registeredCountry = Country::inRandomOrder()->firstOrFail();
 
     $response = delete(
         route('countries.destroy', ['country' => $registeredCountry->id])
@@ -60,9 +60,13 @@ it('should be able to delete a country', function () {
         ->assertRedirectToRoute('home.index');
 });
 
+todo('should be able to create a tag');
+
+todo('should be possible for a country to have one or more tags');
+
 it('should be able to render the country page', function () {
 
-    $registeredCountry = Country::inRandomOrder()->first();
+    $registeredCountry = Country::inRandomOrder()->firstOrFail();
 
     $response = get(
         route('countries.show', ['country' => $registeredCountry->id])

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('country_id');
             $table->unsignedBigInteger('tag_id');
-            $table->foreign('country_id')->references('id')->on('countries');
-            $table->foreign('tag_id')->references('id')->on('tags');
+            $table->foreign('country_id')->references('id')->on('countries')->cascadeOnDelete();
+            $table->foreign('tag_id')->references('id')->on('tags')->cascadeOnDelete();
             $table->timestamps();
         });
     }
