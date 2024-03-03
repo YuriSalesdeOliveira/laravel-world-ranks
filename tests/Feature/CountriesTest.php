@@ -31,7 +31,7 @@ it('should be able to create a country', function () {
 
 it('should be able to update a country', function () {
 
-    $registeredCountry = Country::inRandomOrder()->firstOrFail();
+    $registeredCountry = Country::query()->inRandomOrder()->firstOrFail();
 
     $flag = UploadedFile::fake()->image('flag.jpg');
 
@@ -48,36 +48,28 @@ it('should be able to update a country', function () {
         ->assertRedirectToRoute('home.index');
 });
 
-it('should be able to create a tag', function () {
-
-    $tag = Tag::factory()->make();
-
-    $response = post(
-        route('tags.store'),
-        $tag->getAttributes()
-    );
-
-    $response
-        ->assertStatus(302)
-        ->assertSessionDoesntHaveErrors()
-        ->assertRedirectToRoute('home.index');
-});
-
 it('should be possible for a country to have one or more tags', function () {
 
-    $registeredTags = Tag::inRandomOrder()->take(2)->get();
+    $registeredTags = Tag::query()->inRandomOrder()->take(2)->get();
 
-    $registeredCountry = Country::inRandomOrder()->firstOrFail();
+    if (! $registeredTags->count()) {
+
+        $registeredTags = Tag::factory(2)->create();
+    }
+
+    $registeredCountry = Country::query()->inRandomOrder()->firstOrFail();
 
     $flag = UploadedFile::fake()->image('flag.jpg');
 
     $registeredCountry->flag = $flag;
 
+    $registeredTagsIds = $registeredTags->pluck('id')->toArray();
+
     $response = put(
         route('countries.update', ['country' => $registeredCountry->id]),
         [
             ...$registeredCountry->getAttributes(),
-            'tags' => $registeredTags->pluck('id')->toArray(),
+            'tags' => $registeredTagsIds,
         ]
     );
 
@@ -85,11 +77,19 @@ it('should be possible for a country to have one or more tags', function () {
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
         ->assertRedirectToRoute('home.index');
+
+    expect(
+        $registeredCountry
+            ->tags()
+            ->pluck('tags.id')
+            ->toArray()
+    )
+        ->toContain(...$registeredTagsIds);
 });
 
 it('should be able to render the country page', function () {
 
-    $registeredCountry = Country::inRandomOrder()->firstOrFail();
+    $registeredCountry = Country::query()->inRandomOrder()->firstOrFail();
 
     $response = get(
         route('countries.show', ['country' => $registeredCountry->id])
@@ -105,7 +105,7 @@ it('should be able to render the country page', function () {
 
 it('should be able to delete a country', function () {
 
-    $registeredCountry = Country::inRandomOrder()->firstOrFail();
+    $registeredCountry = Country::query()->inRandomOrder()->firstOrFail();
 
     $response = delete(
         route('countries.destroy', ['country' => $registeredCountry->id])

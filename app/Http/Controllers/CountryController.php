@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Enums\ContinentEnum;
 use App\Models\Country;
+use App\Models\Tag;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rule;
 
 class CountryController extends Controller
@@ -31,10 +33,10 @@ class CountryController extends Controller
 
         $country = new Country();
 
-        if ($flag = request()->file('flag')) {
+        request()->whenFilled('flag', function (UploadedFile $flag) use (&$country) {
 
             $country->flag = $flag->store('flags', 'public');
-        }
+        });
 
         $country->name = request()->string('name')->title();
         $country->population = request()->integer('population');
@@ -79,10 +81,10 @@ class CountryController extends Controller
             'tags.*' => ['integer', 'exists:tags,id'],
         ]);
 
-        if ($flag = request()->file('flag')) {
+        request()->whenFilled('flag', function (UploadedFile $flag) use (&$country) {
 
             $country->flag = $flag->store('flags', 'public');
-        }
+        });
 
         $country->name = request()->string('name')->title();
         $country->population = request()->integer('population');
@@ -90,6 +92,17 @@ class CountryController extends Controller
         $country->continent = request()->enum('continent', ContinentEnum::class);
 
         $country->save();
+
+        request()->whenFilled('tags', function (array $tags) use ($country) {
+
+            $country
+                ->tags()
+                ->saveMany(
+                    Tag::query()
+                        ->whereIn('id', $tags)
+                        ->get()
+                );
+        });
 
         return redirect()->route('home.index');
     }
