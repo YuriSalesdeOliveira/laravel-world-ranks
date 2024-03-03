@@ -23,7 +23,7 @@ class CountryController extends Controller
     {
         request()->validate([
             'flag' => ['image'],
-            'name' => ['required', 'string', 'min:4', 'max:14', 'unique:countries'],
+            'name' => ['required', 'string', 'min:2', 'max:47', 'unique:countries'],
             'population' => ['required', 'integer'],
             'area' => ['required', 'integer'],
             'continent' => ['required', Rule::enum(ContinentEnum::class)],
@@ -71,10 +71,12 @@ class CountryController extends Controller
     {
         request()->validate([
             'flag' => ['image'],
-            'name' => ['required', 'string', 'min:4', 'max:14', 'unique:countries'],
+            'name' => ['required', 'string', 'min:2', 'max:47', Rule::unique('countries')->ignore($country->id)],
             'population' => ['required', 'integer'],
             'area' => ['required', 'integer'],
             'continent' => ['required', Rule::enum(ContinentEnum::class)],
+            'tags' => ['array'],
+            'tags.*' => ['integer', 'exists:tags,id'],
         ]);
 
         if ($flag = request()->file('flag')) {
