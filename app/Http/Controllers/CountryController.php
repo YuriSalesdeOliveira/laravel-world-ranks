@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\ContinentEnum;
 use App\Models\Country;
-use App\Models\Tag;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rule;
 
@@ -95,13 +94,7 @@ class CountryController extends Controller
 
         request()->whenFilled('tags', function (array $tags) use ($country) {
 
-            $country
-                ->tags()
-                ->saveMany(
-                    Tag::query()
-                        ->whereIn('id', $tags)
-                        ->get()
-                );
+            $country->tags()->attach($tags);
         });
 
         return redirect()->route('home.index');

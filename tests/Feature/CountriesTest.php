@@ -18,6 +18,8 @@ it('should be able to create a country', function () {
         'flag' => $flag,
     ]);
 
+    $numberOfCountries = Country::query()->count();
+
     $response = post(
         route('countries.store'),
         $country->getAttributes()
@@ -27,6 +29,8 @@ it('should be able to create a country', function () {
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
         ->assertRedirectToRoute('home.index');
+
+    expect(Country::query()->count())->toEqual($numberOfCountries + 1);
 });
 
 it('should be able to update a country', function () {
@@ -46,6 +50,8 @@ it('should be able to update a country', function () {
         ->assertStatus(302)
         ->assertSessionDoesntHaveErrors()
         ->assertRedirectToRoute('home.index');
+
+    expect($registeredCountry->update_at)->not->toBeObject($registeredCountry->fresh()->updated_at);
 });
 
 it('should be possible for a country to have one or more tags', function () {

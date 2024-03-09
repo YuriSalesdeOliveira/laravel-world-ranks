@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tag;
+use Illuminate\Validation\Rule;
 
 class TagController extends Controller
 {
@@ -28,7 +29,7 @@ class TagController extends Controller
     public function store()
     {
         request()->validate([
-            'name' => ['required', 'string', 'min:2'],
+            'name' => ['required', 'unique:tags,name', 'min:2'],
         ]);
 
         $tag = new Tag();
@@ -42,7 +43,7 @@ class TagController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Tag $tag)
     {
         //
     }
@@ -50,7 +51,7 @@ class TagController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Tag $tag)
     {
         //
     }
@@ -58,16 +59,26 @@ class TagController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(string $id)
+    public function update(Tag $tag)
     {
-        //
+        request()->validate([
+            'name' => ['required', Rule::unique('tags')->ignore($tag->id), 'min:2'],
+        ]);
+
+        $tag->name = request()->string('name')->title();
+
+        $tag->save();
+
+        return redirect()->route('home.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Tag $tag)
     {
-        //
+        $tag->delete();
+
+        return redirect()->route('home.index');
     }
 }
