@@ -3,7 +3,7 @@
 
         <div class="c-pagination__wrapper">
 
-            <Link :href="prevPageURL" preserve-scroll
+            <Link :href="linkInCurrentPage(prevPageURL)" preserve-scroll
                 :class="['c-pagination__control', prevPageURL ? '' : 'is-inactive']">
 
                 <PrevIcon width="6" class="c-pagination__icon" />
@@ -13,14 +13,14 @@
             <ul class="c-pagination_links">
 
                 <li v-for="link in clearLinks" :class="['c-pagination__link', link.active ? 'is-active' : '']">
-                    <Link :href="link.url" preserve-scroll>
+                    <Link :href="linkInCurrentPage(link.url)" preserve-scroll>
                         {{ link.label }}
                     </Link>
                 </li>
 
             </ul>
 
-            <Link :href="nextPageURL" preserve-scroll
+            <Link :href="linkInCurrentPage(nextPageURL)" preserve-scroll
                 :class="['c-pagination__control', nextPageURL ? '' : 'is-inactive']">
 
                 <NextIcon width="6" class="c-pagination__icon" />
@@ -61,6 +61,27 @@ const nextPageURL = computed(() => {
     return props.pagination.next_page_url ?? '';
 });
 
+const linkInCurrentPage = (link) => {
+
+    if (!link) {
+        return link;
+    }
+
+    link = new URL(link);
+    let currentURL = new URL(window.location.href);
+
+    if (link === currentURL) {
+
+        return link.toString();
+    }
+
+    currentURL.searchParams.forEach((value, key) => {
+        link.searchParams.delete(key);
+        link.searchParams.set(key, value);
+    })
+
+    return link.toString();
+};
 </script>
 
 <style scoped>
