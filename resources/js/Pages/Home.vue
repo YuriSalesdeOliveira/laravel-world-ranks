@@ -16,7 +16,7 @@
             <aside class="c-aside">
 
                 <h3 class="c-aside__title">Sort by</h3>
-                
+
                 <select
                         class="c-aside__select"
                         v-model="form.column"
