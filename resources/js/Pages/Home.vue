@@ -118,11 +118,16 @@
                         <tr class="c-table__row" v-for="country in countries.data">
 
                             <td class="c-table__data">
-                                <img :src="country.flag" :alt="country.name" class="c-table__image">
+                                <Link :href="'countries/' + country.id">
+                                    <img :src="country.flag" :alt="country.name" class="c-table__image">
+                                </Link>
                             </td>
 
                             <td>
-                                {{ country.name }}
+
+                                <Link :href="'countries/' + country.id">
+                                    {{ country.name }}
+                                </Link>
                             </td>
 
 
@@ -160,7 +165,7 @@ import Pagination from '../Components/Pagination.vue';
 import Search from '../Components/Search.vue'
 import Table from '../Components/Table.vue';
 import TopBar from '../Components/TopBar.vue';
-import { useForm } from '@inertiajs/vue3';
+import { useForm, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     countries: Object,

@@ -52,8 +52,11 @@ class CountryController extends Controller
      */
     public function show(Country $country)
     {
+        $sameContinentCountries = Country::where('continent', $country->continent)->limit(5)->get();
+
         return inertia('Country', [
             'country' => $country,
+            'sameContinentCountries' => $sameContinentCountries,
         ]);
     }
 

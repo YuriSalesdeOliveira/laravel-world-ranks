@@ -30,7 +30,7 @@ class CountrySeeder extends Seeder
             Country::factory()
                 ->hasAttached($tags[array_rand($tags)])
                 ->create([
-                    'flag' => 'images/flags/'.$file->getFilename(),
+                    'flag' => '/images/flags/'.$file->getFilename(),
                 ]);
         }
     }
