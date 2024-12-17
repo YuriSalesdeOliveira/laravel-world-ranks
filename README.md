@@ -5,8 +5,10 @@
 <h1 align="center">World Ranks</h1>
 
 <div align="center">
-   Solução para um desafio de <a href="http://devchallenges.io" target="_blank">Devchallenges.io</a>.
+   Solução para um desafio de <a href="https://devchallenges.io" target="_blank">Devchallenges.io</a>.
 </div>
+
+<br>
 
 O desafio consistiu em criar uma página de classificação de países que seguisse fielmente o design fornecido.
 Além disso, desenvolvi um back-end completo capaz de fornecer dados dinâmicos sobre os países, incluindo população,
