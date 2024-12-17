@@ -10,6 +10,21 @@ class Country extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'population' => 'float',
+        'area' => 'float',
+    ];
+
+    public function getPopulationAttribute($value)
+    {
+        return number_format($value, 2);
+    }
+
+    public function getAreaAttribute($value)
+    {
+        return number_format($value, 2);
+    }
+
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class)->withTimestamps();

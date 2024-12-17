@@ -71,6 +71,7 @@ defineProps({
     align-items: center;
 
     .u-wrapper {
+        max-width: 58rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -128,7 +129,6 @@ defineProps({
         }
 
         .c-country__same-continent {
-
             .c-country__subsection-title {
                 margin-bottom: 2rem;
                 font-size: 1.6rem;
@@ -136,16 +136,15 @@ defineProps({
             }
 
             .c-country__list {
-                display: flex;
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
                 gap: 0.8rem;
 
                 .c-country__figure {
-                    flex-shrink: 0;
-
+                    width: 100%;
                     display: flex;
                     flex-direction: column;
                     gap: 1.8rem;
-                    width: 10rem;
 
                     .c-country__list-image {
                         width: 100%;
